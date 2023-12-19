@@ -38,11 +38,15 @@ CORS_ALLOWED_ORIGINS = [
     config('CORS_ALLOWED_ORIGIN_2'),
 ]
 
+# CSRF & CORS
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = False
 
-SITE_ID = config('SITE_ID')
 
+# site id 
+SITE_ID = 1
+
+# security headers 
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -57,27 +61,27 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
 ]
 
 
-#REST_FRAMEWORK = {
-#    'DEFAULT_AUTHENTICATION_CLASSES': [
-#        'rest_framework.authentication.SessionAuthentication' if config('DEV', default=False, cast=bool) else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
-#    ],
-#    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#    'PAGE_SIZE': 10,
-#    'DATETIME_FORMAT': '%d %b %Y',
-#}
-
 #if not config('DEV', default=False, cast=bool):
 #    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
 #        'rest_framework.renderers.JSONRenderer',
 #    ]
 
-# JWT setting
-#REST_USE_JWT = True
-#JWT_AUTH_SECURE = True
-#JWT_AUTH_COOKIE = 'users-auth'
-#JWT_AUTH_REFRESH_COOKIE = 'users-refresh-token'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DATETIME_FORMAT': '%d %b %Y',
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+}
 
 
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'users.serializers.CurrentUserSerializer'
+}
 # Application definition
 
 INSTALLED_APPS = [
