@@ -1,23 +1,34 @@
-from posts.models import Post
 from rest_framework import serializers
 from .models import Post
 from profiles.models import Profile
 
+
+
 class PostSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Post
+        fields = ['id', 'title', 'content', 'created_at', 'updated_at', 'user', 'image']
+
+
+class PostListSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
     profile_image = serializers.SerializerMethodField()
-    is_owner = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'username', 'profile_image', 'created_at', 'updated_at', 'title', 'content', 'image', 'is_owner']
+        fields = ['id', 'username', 'profile_image', 'created_at', 'updated_at', 'title', 'image']
 
     def get_username(self, obj):
         return obj.user.username
+        
 
     def get_profile_image(self, obj):
-        profile = Profile.objects.get(user=obj.user)
-        return profile.profile_image.url if profile.profile_image else None
+        try:
+            profile = Profile.objects.get(user=obj.user)
+            return profile.profile_image.url if profile.profile_image else None
+        except Profile.DoesNotExist:
+                return None  
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -36,5 +47,3 @@ class PostSerializer(serializers.ModelSerializer):
                 'Image width larger than 4096px!'
             )
         return value
-
-    

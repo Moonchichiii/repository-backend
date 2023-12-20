@@ -23,6 +23,7 @@ class UserTests(APITestCase):
         self.client.post(url, data, format='json')
 
     def test_profile_create(self):
+        url = reverse('users:login')
         self.test_user_create()
         user = User.objects.get(username='testuser')
         self.assertIsNotNone(user.profile)
