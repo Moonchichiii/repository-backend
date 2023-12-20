@@ -1,13 +1,12 @@
 from django.urls import path, include
-from likes import views
+from rest_framework.routers import DefaultRouter
+from .views import LikeViewSet
+
+router = DefaultRouter()
+router.register(r'', LikeViewSet, basename='like')
 
 app_name = 'likes'
 
-urlpatterns = [    
-    path('likes/', views.LikeList.as_view()),
-    path('likes/<int:pk>/', views.LikeDetail.as_view()),
-    
+urlpatterns = [
+    path('', include(router.urls)),
 ]
-
-
-

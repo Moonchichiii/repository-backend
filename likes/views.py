@@ -1,19 +1,16 @@
-from rest_framework import generics, permissions
+from rest_framework import viewsets, permissions
 from backend.permissions import IsOwnerOrReadOnly
-from likes.models import Like
-from likes.serializers import LikeSerializer
+from .models import Like
+from .serializers import LikeSerializer
 
 
 
-class LikeList(generics.ListCreateAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    serializer_class = LikeSerializer
+class LikeViewSet(viewsets.ModelViewSet):
     queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-class LikeDetail(generics.RetrieveDestroyAPIView):
-    permission_classes = [IsOwnerOrReadOnly]
-    serializer_class = LikeSerializer
-    queryset = Like.objects.all()
+        

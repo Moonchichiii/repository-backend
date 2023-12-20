@@ -1,12 +1,6 @@
-from django.urls import path, include
+from django.urls import path
+from .views import api_root
 
 urlpatterns = [
-
-    path('users/', include('users.urls', namespace='users')),
-    path('profiles/', include('profiles.urls', namespace='profiles')),
-    path('posts/', include('posts.urls', namespace='posts')),
-    path('comments/', include('comments.urls', namespace='comments')),
-    path('likes/', include('likes.urls', namespace='likes')),
-    path('followers/', include('followers.urls', namespace='followers')),
- 
+    path('', api_root, name='api-root')
 ]

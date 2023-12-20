@@ -1,19 +1,18 @@
+from rest_framework import viewsets
 from rest_framework import generics, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from backend.permissions import IsOwnerOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly 
 from .models import Comment
 from .serializers import CommentSerializer
 
 
 # Create your views here.
 
-
-class CommentList(generics.ListCreateAPIView):
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['post']
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
