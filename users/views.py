@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 
 # User registration 
 class UserRegistrationView(CreateAPIView):
-    serializer_class = UserRegistrationSerializer
+    serializer_class = UserRegistrationSerializer    
     def post(self, request, *args, **kwargs):
         
         # user registration token creation
@@ -28,6 +28,8 @@ class UserRegistrationView(CreateAPIView):
                 "token": token.key
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+       
 
 # User Login View
 class UserLoginView(APIView):
@@ -56,3 +58,5 @@ class UserLogoutView(APIView):
         logout(request)
         Token.objects.filter(user=request.user).delete()
         return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
+
+

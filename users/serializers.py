@@ -22,5 +22,14 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         # remove confirm_password from data
         validated_data.pop('confirm_password', None)  
         user = User.objects.create_user(**validated_data)
+        Profile.objects.create(user=user)
         return user
 
+
+
+
+class CurrentUserSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email')

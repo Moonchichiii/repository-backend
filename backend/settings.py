@@ -89,6 +89,8 @@ REST_FRAMEWORK = {
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.CurrentUserSerializer'
 }
+
+
 # Application definition
 
 INSTALLED_APPS = [
