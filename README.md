@@ -134,8 +134,8 @@ Python Imaging Library adds image processing capabilities to python
 ### Postman testing Authentication endpoints 
 
 <p>
- <img src="/testing/images/postman-signup.png" alt="postman testing results" width="200"/>
- <img src="/testing/images/postman-login.png" alt="postman testing results" width="200"/> 
+ <img src="/testing/images/postman-signup.png" alt="postman testing results" width="350"/>
+ <img src="/testing/images/postman-login.png" alt="postman testing results" width="350"/> 
  </p>
 
 
