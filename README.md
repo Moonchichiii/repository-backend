@@ -135,7 +135,7 @@ Python Imaging Library adds image processing capabilities to python
 
 <p>
  <img src="/testing/images/postman-signup.png" alt="postman testing results" width="350"/>
- <img src="/testing/images/postman-login.png" alt="postman testing results" width="350"/> 
+ <img src="/testing/images/postman-lg.png" alt="postman testing results" width="350"/> 
  </p>
 
 
