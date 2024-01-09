@@ -26,17 +26,28 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = False
 
 
-ALLOWED_HOSTS = [config('ALLOWED_HOST')]
+def get_list_from_config(config_name):
+    return config(config_name).split(',') if config(config_name) else []
 
-CSRF_TRUSTED_ORIGINS = [
-    config('CSRF_TRUSTED_ORIGIN_1'),
-    config('CSRF_TRUSTED_ORIGIN_2'),
-]
+CORS_ALLOWED_ORIGINS = get_list_from_config('CORS_ALLOWED_ORIGIN_1') + get_list_from_config('CORS_ALLOWED_ORIGIN_2')
+CSRF_TRUSTED_ORIGINS = get_list_from_config('CSRF_TRUSTED_ORIGIN_1') + get_list_from_config('CSRF_TRUSTED_ORIGIN_2')
 
-CORS_ALLOWED_ORIGINS = [
-    config('CORS_ALLOWED_ORIGIN_1'),
-    config('CORS_ALLOWED_ORIGIN_2'),
-]
+ALLOWED_HOSTS = get_list_from_config('ALLOWED_HOST')
+
+"""
+Remove blocked comments once development is complete
+"""
+#ALLOWED_HOSTS = [config('ALLOWED_HOST')]
+
+#CSRF_TRUSTED_ORIGINS = [
+#    config('CSRF_TRUSTED_ORIGIN_1'),
+#    config('CSRF_TRUSTED_ORIGIN_2'),
+#]
+
+#CORS_ALLOWED_ORIGINS = [
+#    config('CORS_ALLOWED_ORIGIN_1'),
+#    config('CORS_ALLOWED_ORIGIN_2'),
+#]
 
 # CSRF & CORS
 CORS_ALLOW_ALL_ORIGINS = False
