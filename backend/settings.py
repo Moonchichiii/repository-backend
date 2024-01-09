@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [config('ALLOWED_HOST')]
 
+
 CSRF_TRUSTED_ORIGINS = [
     config('CSRF_TRUSTED_ORIGIN_1'),
     config('CSRF_TRUSTED_ORIGIN_2'),

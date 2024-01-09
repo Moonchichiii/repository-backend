@@ -30,5 +30,3 @@ def generate_cloudinary_signature(request):
         "api_key": settings.CLOUDINARY_API_KEY
     })
 
-
-
