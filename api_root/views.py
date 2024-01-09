@@ -23,7 +23,7 @@ def api_root(request, format=None):
 @permission_classes([IsAuthenticated])
 def generate_cloudinary_signature(request):
     timestamp = int(time.time())
-    signature = utils.api_sign_request({"timestamp": timestamp}, settings.CLOUDINARY_API_SECRET)
+    signature = utils.api_sign_request({"timestamp": timestamp}, settings.CLOUDINARY_API_SECRET)     
     return Response({
         "signature": signature,
         "timestamp": timestamp,

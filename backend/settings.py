@@ -28,28 +28,18 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 
-def get_list_from_config(config_name):
-    return config(config_name).split(',') if config(config_name) else []
 
-CORS_ALLOWED_ORIGINS = get_list_from_config('CORS_ALLOWED_ORIGIN_1') + get_list_from_config('CORS_ALLOWED_ORIGIN_2')
-CSRF_TRUSTED_ORIGINS = get_list_from_config('CSRF_TRUSTED_ORIGIN_1') + get_list_from_config('CSRF_TRUSTED_ORIGIN_2')
+ALLOWED_HOSTS = [config('ALLOWED_HOST')]
 
-ALLOWED_HOSTS = get_list_from_config('ALLOWED_HOST')
+CSRF_TRUSTED_ORIGINS = [
+    config('CSRF_TRUSTED_ORIGIN_1'),
+    config('CSRF_TRUSTED_ORIGIN_2'),
+]
 
-"""
-Remove blocked comments once development is complete
-"""
-#ALLOWED_HOSTS = [config('ALLOWED_HOST')]
-
-#CSRF_TRUSTED_ORIGINS = [
-#    config('CSRF_TRUSTED_ORIGIN_1'),
-#    config('CSRF_TRUSTED_ORIGIN_2'),
-#]
-
-#CORS_ALLOWED_ORIGINS = [
-#    config('CORS_ALLOWED_ORIGIN_1'),
-#    config('CORS_ALLOWED_ORIGIN_2'),
-#]
+CORS_ALLOWED_ORIGINS = [
+    config('CORS_ALLOWED_ORIGIN_1'),
+    config('CORS_ALLOWED_ORIGIN_2'),
+]
 
 # CSRF & CORS
 CORS_ALLOW_ALL_ORIGINS = False
@@ -65,19 +55,6 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 
-
-
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^([^.]+)', config('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}\.(eu|us)\d+\.codeanyapp\.com$",
-]
-
-
-#if not config('DEV', default=False, cast=bool):
-#    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
-#        'rest_framework.renderers.JSONRenderer',
-#    ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
