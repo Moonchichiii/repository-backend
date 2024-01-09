@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render
 from cloudinary import utils
 from rest_framework.decorators import api_view, permission_classes
