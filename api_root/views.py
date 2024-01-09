@@ -1,5 +1,5 @@
-from django.conf import settings
 from django.shortcuts import render
+from django.conf import settings
 from cloudinary import utils
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
