@@ -25,7 +25,7 @@ CLOUDINARY_API_KEY = config('CLOUDINARY_API_KEY')
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = [config('ALLOWED_HOST')]
