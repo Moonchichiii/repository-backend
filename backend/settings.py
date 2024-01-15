@@ -32,13 +32,16 @@ ALLOWED_HOSTS = [config('ALLOWED_HOST')]
 
 
 CSRF_TRUSTED_ORIGINS = [
+    
     config('CSRF_TRUSTED_ORIGIN_1'),
     config('CSRF_TRUSTED_ORIGIN_2'),
+    config('CSRF_TRUSTED_ORIGIN_3'),
 ]
 
-CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = [    
     config('CORS_ALLOWED_ORIGIN_1'),
     config('CORS_ALLOWED_ORIGIN_2'),
+    config('CORS_ALLOWED_ORIGIN_3'),
 ]
 
 # CSRF & CORS
