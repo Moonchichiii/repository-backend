@@ -54,6 +54,8 @@ class UserLoginView(APIView):
 class UserLogoutView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
+        print("Logout request received.")
+        print("Token received:", request.META.get('HTTP_AUTHORIZATION'))
         # Logout user delete the token
         logout(request)
         Token.objects.filter(user=request.user).delete()
