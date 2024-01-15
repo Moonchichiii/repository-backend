@@ -56,12 +56,9 @@ class UserLogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        try:
+        if request.user.is_authenticated:
             logout(request)
-            # Logout user delete the token
             Token.objects.filter(user=request.user).delete()
             return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
-        except Exception as e:
-            # Log the exception
-            print("Error during logout:", str(e))
-            return Response({"error": "Internal Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response({"error": "Not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
