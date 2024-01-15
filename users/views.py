@@ -51,14 +51,17 @@ class UserLoginView(APIView):
             return Response({"error": "Invalid username or password"}, status=status.HTTP_400_BAD_REQUEST)
 
 # User logout view
+
 class UserLogoutView(APIView):
     permission_classes = [IsAuthenticated]
+
     def post(self, request, *args, **kwargs):
-        print("Logout request received.")
-        print("Token received:", request.META.get('HTTP_AUTHORIZATION'))
-        # Logout user delete the token
-        logout(request)
-        Token.objects.filter(user=request.user).delete()
-        return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
-
-
+        try:
+            logout(request)
+            # Logout user delete the token
+            Token.objects.filter(user=request.user).delete()
+            return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            # Log the exception
+            print("Error during logout:", str(e))
+            return Response({"error": "Internal Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
