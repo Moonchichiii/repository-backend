@@ -1,7 +1,9 @@
 from django.db.models import Count
 from rest_framework import viewsets
 from .models import Post
-from .serializers import PostSerializer, PostListSerializer
+
+from .serializers import PostListSerializer
+
 from backend.permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
@@ -12,7 +14,7 @@ from rest_framework import filters
 class PostViewSet(viewsets.ModelViewSet):
     # handles CRUD operations for posts
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = PostListSerializer
     permission_classes = [IsOwnerOrReadOnly]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
     search_fields = ['title', 'content', 'user__username']

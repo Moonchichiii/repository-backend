@@ -7,6 +7,7 @@ from .serializers import UserRegistrationSerializer
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.exceptions import APIException
 
 # Create your views here.
 
@@ -56,9 +57,12 @@ class UserLogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            logout(request)
-            Token.objects.filter(user=request.user).delete()
-            return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "Not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            if request.user.is_authenticated:
+                logout(request)
+                Token.objects.filter(user=request.user).delete()
+                return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+        except Exception as e:
+            raise APIException(str(e))
