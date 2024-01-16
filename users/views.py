@@ -60,12 +60,12 @@ class UserLoginView(APIView):
 # User logout view
 class UserLogoutView(APIView):
     permission_classes = [IsAuthenticated]
-
+    
     def post(self, request, *args, **kwargs):
-    try:
-        logout(request)
-        Token.objects.filter(user=request.user).delete()
-        return JsonResponse({"message": "Logout successful"}, status=status.HTTP_200_OK)
-    except Exception as e:
-        logger.error(f"Error during logout: {str(e)}")
-        return JsonResponse({"error": "An error occurred during logout"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        try:
+            logout(request)
+            Token.objects.filter(user=request.user).delete()
+            return JsonResponse({"message": "Logout successful"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error(f"Error during logout: {str(e)}")
+            return JsonResponse({"error": "An error occurred during logout"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
