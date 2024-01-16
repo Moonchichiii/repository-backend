@@ -10,6 +10,12 @@ from .serializers import UserRegistrationSerializer
 from django.http import JsonResponse
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+logger.debug('debugging message')
+
 
 # Create your views here.
 
@@ -57,16 +63,11 @@ class UserLogoutView(APIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            if request.user.is_authenticated:
-                print(f"User {request.user.username} is authenticated")
-                logout(request)
-                Token.objects.filter(user=request.user).delete()
-                if 'user_id' in request.session:
-                    del request.session['user_id']
-                return JsonResponse({"message": "Logout successful"}, status=status.HTTP_200_OK)
-            else:
-                print("User is not authenticated")
-                return JsonResponse({"error": "Not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+            if 'user_id' in request.session:
+                del request.session['user_id']
+            logout(request)
+            Token.objects.filter(user=request.user).delete()
+            return JsonResponse({"message": "Logout successful"}, status=status.HTTP_200_OK)
         except Exception as e:
-            print(f"Error during logout: {str(e)}")
-            raise APIException(str(e))
+            print(f"Error during session deletion: {str(e)}")
+            return JsonResponse({"error": "An error occurred during logout"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
