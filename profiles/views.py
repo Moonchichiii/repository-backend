@@ -1,14 +1,14 @@
 from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
+from backend.permissions import IsOwnerOrReadOnly 
 
 from .models import Profile
 
 from .serializers import UserProfileSerializer
-
-from backend.permissions import IsOwnerOrReadOnly 
 
 
 # Create your views here.
@@ -20,8 +20,11 @@ class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwnerOrReadOnly]
     
 
-    def get_queryset(self):        
-        return super().get_queryset()
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = get_object_or_404(queryset, user=self.request.user)
+        self.check_object_permissions(self.request, obj)
+        return obj
 
 
 class ProfileUpdateView(APIView):
