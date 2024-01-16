@@ -34,8 +34,9 @@ class ProfileUpdateView(APIView):
         user = request.user
         profile = get_object_or_404(Profile, user=user)
         profile_image_url = request.data.get("image_url")
-        if profile_image_url:
-        profile.profile_image = profile_image_url
-        profile.save()
         
-        return Response({ "message": "Profile updated"})
+        if profile_image_url:
+            profile.profile_image = profile_image_url
+            profile.save()
+        
+        return Response({"message": "Profile updated"})
