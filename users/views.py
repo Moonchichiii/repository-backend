@@ -58,11 +58,10 @@ class UserLogoutView(APIView):
         try:
             if request.user.is_authenticated:
                 print(f"User {request.user.username} is authenticated")
-                user_id = request.user.id
-                logout(request)                                
+                logout(request)
                 Token.objects.filter(user=request.user).delete()
                 if 'user_id' in request.session:
-                    del request.session['user_id']                
+                    del request.session['user_id']
                 return JsonResponse({"message": "Logout successful"}, status=status.HTTP_200_OK)
             else:
                 print("User is not authenticated")
