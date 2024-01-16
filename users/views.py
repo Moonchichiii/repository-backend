@@ -56,13 +56,16 @@ class UserLogoutView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             if request.user.is_authenticated:
-                print(f"User {request.user.username} is authenticated")  
-                logout(request)
+                print(f"User {request.user.username} is authenticated")
+                user_id = request.user.id
+                logout(request)                                
                 Token.objects.filter(user=request.user).delete()
-                return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
+                if 'user_id' in request.session:
+                    del request.session['user_id']                
+                return JsonResponse({"message": "Logout successful"}, status=status.HTTP_200_OK)
             else:
-                print("User is not authenticated")  
-                return Response({"error": "Not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+                print("User is not authenticated")
+                return JsonResponse({"error": "Not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
         except Exception as e:
-            print(f"Error during logout: {str(e)}") 
+            print(f"Error during logout: {str(e)}")
             raise APIException(str(e))
