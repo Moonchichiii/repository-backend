@@ -2,8 +2,6 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from profiles.models import Profile
-from cloudinary.models import CloudinaryField
-
 
 
 User = get_user_model()
@@ -26,10 +24,10 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
+    class CurrentUserSerializer(serializers.ModelSerializer):
+        token = serializers.CharField(source='auth_token.key', read_only=True)
 
-
-class CurrentUserSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id', 'username', 'email', 'token')
+
